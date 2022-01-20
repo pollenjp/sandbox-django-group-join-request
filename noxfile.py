@@ -7,15 +7,16 @@ from typing import List
 # Third Party Library
 import nox
 
+django_project_dir: Path = Path("sample1")
 python_code_path_list: List[str] = [
-    "path/to/python/directory",  # TODO: python directory
+    f"{django_project_dir}",
     "noxfile.py",
 ]
 env_common: Dict[str, str] = {
-    "PYTHONPATH": f"{Path(__file__).parent}",  # TODO: check python path
+    "PYTHONPATH": f"{django_project_dir}",
 }
 nox_tmp_dir: Path = Path(__file__).parent / ".nox_tmp"
-python_version_list: List[str] = ["3.10"]  # TODO: check python version
+python_version_list: List[str] = ["3.10"]
 
 
 def install_package(session: nox.sessions.Session, dev: bool = False):

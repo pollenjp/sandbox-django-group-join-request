@@ -27,8 +27,8 @@ django_settings_module = "sample1.settings"
 minversion = "6.0"
 addopts = [
     "-rxX",
-    # "--capture=no",
-    # "-pno:logging",
+    "--capture=no",
+    "-pno:logging",
     # "--cov",
     # "--cov-append",
     # "--cov-report=term-missing",

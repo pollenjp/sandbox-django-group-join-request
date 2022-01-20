@@ -1,0 +1,33 @@
+[tool.black]
+line-length = 120
+
+[tool.isort]
+profile = "black"
+line_length = 120
+force_single_line = true
+import_heading_stdlib      = "Standard Library"
+import_heading_thirdparty  = "Third Party Library"
+import_heading_firstparty  = "First Party Library"
+import_heading_localfolder = "Local Library"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = [
+    "-rxX",
+    "--capture=no",
+    "-pno:logging",
+    # "--cov",
+    # "--cov-append",
+    # "--cov-report=term-missing",
+]
+testpaths = "tests"
+python_files = [
+    "tests.py",
+    "test_*.py",
+    "*_tests.py",
+]

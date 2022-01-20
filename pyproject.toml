@@ -16,6 +16,10 @@ warn_return_any = true
 warn_unused_configs = true
 plugins = ["mypy_django_plugin.main"]
 
+[[tool.mypy.overrides]]
+module = "environ"
+ignore_missing_imports = true
+
 [tool.django-stubs]
 django_settings_module = "sample1.settings"
 
@@ -23,8 +27,8 @@ django_settings_module = "sample1.settings"
 minversion = "6.0"
 addopts = [
     "-rxX",
-    "--capture=no",
-    "-pno:logging",
+    # "--capture=no",
+    # "-pno:logging",
     # "--cov",
     # "--cov-append",
     # "--cov-report=term-missing",

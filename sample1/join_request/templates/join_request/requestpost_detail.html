@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+  <p>{{ post.request_group.name }}</p>
+  <p>Posted on
+    {{ post.created_at }}</p>
+  <p>Updated on
+    {{ post.updated_at }}</p>
+  {% if user.is_authenticated %}
+    <a href="{% url 'join_request_update' pk=post.pk %}">Edit</a>
+  {% endif %}
+{% endblock %}

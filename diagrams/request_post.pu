@@ -1,0 +1,48 @@
+@startuml RequestPost
+
+skinparam linetype ortho
+
+Entity auth_user {
+    * **"pk, id"        : integer NOT NULL PRIMARY KEY AUTOINCREMENT**
+    ---
+    * "password"        : varchar(128) NOT NULL
+    * "last_login"      : datetime NULL
+    * "is_superuser"    : bool NOT NULL
+    * "username"        : varchar(150) NOT NULL UNIQUE
+    * "last_name"       : varchar(150) NOT NULL
+    * "email"           : varchar(254) NOT NULL
+    * "is_staff"        : bool NOT NULL
+    * "is_active"       : bool NOT NULL
+    * "date_joined"     : datetime NOT NULL
+    * "first_name"      : varchar(150) NOT NULL
+}
+
+Entity auth_user_groups {
+    * **"pk, id"    : integer NOT NULL PRIMARY KEY AUTOINCREMENT**
+    ---
+    * "user_id"     : integer NOT NULL REFERENCES "auth_user" ("id") DEFERRABLE INITIALLY DEFERRED
+    * "group_id"    : integer NOT NULL REFERENCES "auth_group" ("id") DEFERRABLE INITIALLY DEFERRED
+}
+
+Entity auth_group {
+    * **"pk, id"    : integer NOT NULL PRIMARY KEY AUTOINCREMENT**
+    ---
+    * "name"        : varchar(150) NOT NULL UNIQUE
+}
+
+Entity join_request_request_post {
+    * **"pk, id"        : integer**
+    ---
+    * **"created_by"    : integer (auth_user.pk)**
+    * **"request_group" : integer (auth_group.pk)**
+    * "detail"          : varchar(1000) NOT NULL
+    * "created_at"      : datetime NOT NULL
+    * "updated_at"      : datetime NOT NULL
+}
+
+auth_user  ||-u-|{ auth_user_groups
+auth_group ||-u-|{ auth_user_groups
+auth_user  ||-d-|{ join_request_request_post
+auth_group ||-d-|{ join_request_request_post
+
+@enduml

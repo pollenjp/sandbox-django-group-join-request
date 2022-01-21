@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+  {% for post in posts %}
+    <div>
+      <a href="{% url 'join_request_detail' pk=post.pk %}">
+        <h2>
+          Request for joining
+          {{ post.request_group.name }}
+        </h2>
+      </a>
+      <p>Posted on
+        {{ post.created_at }}</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

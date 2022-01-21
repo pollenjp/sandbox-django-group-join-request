@@ -14,11 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 # Third Party Library
-from django.contrib import admin
-from django.urls import include
 from django.urls import path
 
+# Local Library
+from .views import RequestPostCreateView
+from .views import RequestPostDetailView
+from .views import RequestPostListView
+from .views import RequestPostUpdateView
+
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("join_request/", include("join_request.urls")),
+    path("", view=RequestPostListView.as_view(), name="join_request_list"),
+    path("create/", view=RequestPostCreateView.as_view(), name="join_request_create"),
+    path(route="posts/<int:pk>", view=RequestPostDetailView.as_view(), name="join_request_detail"),
+    path(route="posts/<int:pk>/update", view=RequestPostUpdateView.as_view(), name="join_request_update"),
 ]

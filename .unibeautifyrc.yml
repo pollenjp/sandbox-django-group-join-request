@@ -1,0 +1,11 @@
+---
+HTML:
+  beautifiers:
+    - "Pretty Diff"
+    # - "JS-Beautfy"
+  indent_style: "space"
+  indent_char: " "
+  indent_size: 2
+  wrap_line_length: 120
+  preserve_newlines: false
+  max_preserve_newlines: 0

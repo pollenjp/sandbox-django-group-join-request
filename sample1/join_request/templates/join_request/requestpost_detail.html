@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block body %}
-  <p>{{ post.request_group.name }}</p>
+  <p>Join Request:
+    {{ post.request_group.name }}</p>
+  <p>Requested By:
+    {{ post.created_by.username }}</p>
+  <div>
+    Detail:<br>
+    {{ post.detail|linebreaks }}
+  </div>
   <p>Posted on
     {{ post.created_at }}</p>
   <p>Updated on

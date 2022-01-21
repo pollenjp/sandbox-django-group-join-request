@@ -12,6 +12,13 @@
     {{ post.created_at }}</p>
   <p>Updated on
     {{ post.updated_at }}</p>
+  <p>Status :
+    {% if post.is_open %}
+      Open
+    {% else %}
+      Closed
+    {% endif %}
+  </p>
   {% if user.is_authenticated %}
     <a href="{% url 'join_request_update' pk=post.pk %}">Edit</a>
   {% endif %}

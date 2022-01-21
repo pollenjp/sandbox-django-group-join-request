@@ -18,6 +18,7 @@ class RequestPost(models.Model):
     detail: models.TextField = models.TextField("Detail", blank=True)
     created_at: models.DateTimeField = models.DateTimeField("Creation timestamp", auto_now_add=True)
     updated_at: models.DateTimeField = models.DateTimeField("last-modified timestamp", auto_now=True)
+    is_open: models.BooleanField = models.BooleanField("Open", default=True)
 
     def __str__(self):
         return f"Requst Post #{self.pk}"

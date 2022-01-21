@@ -43,11 +43,16 @@ ALLOWED_HOSTS: List[str] = []
 
 INSTALLED_APPS = [
     "django.contrib.admin",
-    "django.contrib.auth",
+    "django.contrib.auth",  # default, allauth
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.messages",
+    "django.contrib.messages",  # default, allauth
     "django.contrib.staticfiles",
+    "django.contrib.sites",  # allauth
+    "allauth",  # allauth
+    "allauth.account",  # allauth
+    "allauth.socialaccount",  # allauth
+    "allauth.socialaccount.providers.github",  # allauth
     "join_request.apps.JoinRequestConfig",  # app
 ]
 
@@ -66,12 +71,14 @@ ROOT_URLCONF = "sample1.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
-                "django.template.context_processors.request",
+                "django.template.context_processors.request",  # default, allauth
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -133,3 +140,27 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = "home"
+ACCOUNT_LOGOUT_REDIRECT_URL = "home"
+ACCOUNT_LOGOUT_ON_GET = True
+
+
+AUTHENTICATION_BACKENDS = [
+    # "django.contrib.auth.backends.ModelBackend",  # default, allauth
+    "allauth.account.auth_backends.AuthenticationBackend",  # allauth
+]
+
+SITE_ID = 1  # allauth
+
+SOCIALACCOUNT_PROVIDERS = {  # allauth
+    "github": {
+        "APP": {
+            "client_id": env("GITHUB_OAUTH_CLIENT_ID"),
+            "secret": env("GITHUB_OAUTH_SECRET"),
+        }
+    },
+}
+
+ACCOUNT_ADAPTER = "sample1.account_adapter.AccountAdapter"  # allauth
+SOCIALACCOUNT_ADAPTER = "sample1.account_adapter.SocialAccountAdapter"  # allauth

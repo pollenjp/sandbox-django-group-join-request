@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sandbox GitHub</title>
+    {% block extraheader %}{% endblock %}
+  </head>
+  <body>
+    <!-- start: top navigation bar -->
+    <nav>
+      <div>
+        <a href="/">Sample1</a>
+        <ul>
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_logout' %}">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <!-- end: top navigation bar -->
+    <main>
+      <div class="container">
+        {% block body %}{% endblock %}
+      </div>
+    </main>
+  </body>
+</html>

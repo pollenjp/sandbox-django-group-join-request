@@ -19,6 +19,10 @@ class RequestPostListView(ListView):
     model = RequestPost
     context_object_name = "posts"
 
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        return qs.filter(is_open=True)
+
 
 class RequestPostDetailView(DetailView):
     model = RequestPost

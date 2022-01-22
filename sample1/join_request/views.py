@@ -15,13 +15,14 @@ from .models import RequestPost
 # from django.views.generic import DeleteView
 
 
-class RequestPostListView(ListView):
+class RequestPostListView(LoginRequiredMixin, ListView):
     model = RequestPost
     context_object_name = "posts"
+    ordering = ["-id"]
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset(*args, **kwargs)
-        return qs.filter(is_open=True)
+        return qs.filter(created_by=self.request.user)
 
 
 class RequestPostDetailView(DetailView):

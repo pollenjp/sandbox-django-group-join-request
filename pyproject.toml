@@ -1,9 +1,15 @@
 [tool.black]
 line-length = 120
+exclude = [
+    "**/migrations/*",
+]
 
 [tool.isort]
 profile = "black"
 line_length = 120
+skip_glob = [
+    "**/migrations/*.py",
+]
 force_single_line = true
 import_heading_stdlib      = "Standard Library"
 import_heading_thirdparty  = "Third Party Library"
@@ -17,7 +23,10 @@ warn_unused_configs = true
 plugins = ["mypy_django_plugin.main"]
 
 [[tool.mypy.overrides]]
-module = "environ"
+module = [
+    "allauth.*",
+    "environ"
+]
 ignore_missing_imports = true
 
 [tool.django-stubs]

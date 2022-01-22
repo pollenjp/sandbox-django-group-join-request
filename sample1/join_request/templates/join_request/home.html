@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block body %}
+  <div>
+    <ul>
+      <li>
+        <a href="{% url 'join_request_create' %}">Create a new request</a>
+      </li>
+      <li>
+        <a href="{% url 'join_request_list' %}">Your Requests</a>
+      </li>
+      <!-- TODO: if you are a member of "Join Approver" group, show "All Requests" page link here -->
+    </ul>
+  </div>
+{% endblock %}

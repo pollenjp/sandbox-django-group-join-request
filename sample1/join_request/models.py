@@ -22,7 +22,7 @@ class RequestPost(models.Model):
 
     class Meta:
         permissions = [
-            ("view_request_post_all", "Can view all request posts"),
+            ("view_all_request_post", "Can view all request posts"),
             ("approve_request_post", "Can approve request post"),
         ]
 

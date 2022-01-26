@@ -20,5 +20,11 @@ class RequestPost(models.Model):
     updated_at: models.DateTimeField = models.DateTimeField("last-modified timestamp", auto_now=True)
     is_open: models.BooleanField = models.BooleanField("Open", default=True)
 
+    class Meta:
+        permissions = [
+            ("view_request_post_all", "Can view all request posts"),
+            ("approve_request_post", "Can approve request post"),
+        ]
+
     def __str__(self):
         return f"Requst Post #{self.pk}"

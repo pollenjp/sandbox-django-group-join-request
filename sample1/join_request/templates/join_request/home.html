@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load rules %}
 {% block body %}
   <div>
     <ul>
@@ -8,7 +9,13 @@
       <li>
         <a href="{% url 'join_request_list' %}">Your Requests</a>
       </li>
-      <!-- TODO: if you are a member of "Join Approver" group, show "All Requests" page link here -->
+      <!-- If you are a member of like a group, like "Join Approver", show "All Request Posts" page link here -->
+      {% has_perm 'join_request.rules_view_all_request_post' user as rules_view_all_request_post %}
+      {% if rules_view_all_request_post is True %}
+        <li>
+          <a href="{% url 'join_request_list_all' %}">List all of the Join Request Posts</a>
+        </li>
+      {% endif %}
     </ul>
   </div>
 {% endblock %}

@@ -18,6 +18,7 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 # Local Library
+from .views import RequestPostAllListView
 from .views import RequestPostCreateView
 from .views import RequestPostDetailView
 from .views import RequestPostListView
@@ -26,6 +27,7 @@ from .views import RequestPostUpdateView
 urlpatterns = [
     path("", view=TemplateView.as_view(template_name="join_request/home.html"), name="join_request_home"),
     path("posts/", view=RequestPostListView.as_view(), name="join_request_list"),
+    path("posts_all/", view=RequestPostAllListView.as_view(), name="join_request_list_all"),
     path("create/", view=RequestPostCreateView.as_view(), name="join_request_create"),
     path(route="posts/<int:pk>/", view=RequestPostDetailView.as_view(), name="join_request_detail"),
     path(route="posts/<int:pk>/update/", view=RequestPostUpdateView.as_view(), name="join_request_update"),

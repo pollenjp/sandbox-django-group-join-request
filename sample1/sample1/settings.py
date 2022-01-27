@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "allauth.account",  # allauth
     "allauth.socialaccount",  # allauth
     "allauth.socialaccount.providers.github",  # allauth
+    "rules.apps.AutodiscoverRulesConfig",  # django-rules
     "join_request.apps.JoinRequestConfig",  # app
 ]
 
@@ -147,7 +148,8 @@ ACCOUNT_LOGOUT_ON_GET = True
 
 
 AUTHENTICATION_BACKENDS = [
-    # "django.contrib.auth.backends.ModelBackend",  # default, allauth
+    "rules.permissions.ObjectPermissionBackend",  # django-rules
+    "django.contrib.auth.backends.ModelBackend",  # default, allauth
     "allauth.account.auth_backends.AuthenticationBackend",  # allauth
 ]
 
@@ -164,3 +166,4 @@ SOCIALACCOUNT_PROVIDERS = {  # allauth
 
 ACCOUNT_ADAPTER = "sample1.account_adapter.AccountAdapter"  # allauth
 SOCIALACCOUNT_ADAPTER = "sample1.account_adapter.SocialAccountAdapter"  # allauth
+ACCOUNT_EMAIL_VERIFICATION = None  # allauth

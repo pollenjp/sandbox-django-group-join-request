@@ -1,6 +1,12 @@
+# Standard Library
+from typing import Any
+from typing import Dict
+from typing import Optional
+
 # Third Party Library
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http.response import Http404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -25,12 +31,33 @@ class RequestPostListView(LoginRequiredMixin, ListView):
         return qs.filter(created_by=self.request.user)
 
 
-class RequestPostDetailView(DetailView):
+class RequestPostAllListView(PermissionRequiredMixin, LoginRequiredMixin, ListView):
+    model = RequestPost
+    context_object_name = "posts"
+    template_name = "join_request/requestpost_list_all.html"
+    permission_required = ("join_request.rules_view_all_request_post",)
+    ordering = ["-id"]
+
+    def get_queryset(self, *args, **kwargs):
+        fileter_kwargs: Dict[str, Any] = {}
+        val: Optional[str] = self.request.GET.get("is_open", None)
+        if val is not None:
+            if val.lower() == "true":
+                fileter_kwargs["is_open"] = True
+            elif val.lower() == "false":
+                fileter_kwargs["is_open"] = False
+
+        qs = super().get_queryset(*args, **kwargs)
+        return qs.filter(**fileter_kwargs)
+
+
+class RequestPostDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     model = RequestPost
     context_object_name = "post"
+    permission_required = ("join_request.rules_view_request_post_detail",)
 
 
-class RequestPostCreateView(LoginRequiredMixin, CreateView):
+class RequestPostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     model = RequestPost
     form_class = RequestPostForm
     success_url = reverse_lazy("join_request_list")

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load rules %}
 {% block body %}
   <p>Join Request:
     {{ post.request_group.name }}</p>
@@ -19,7 +20,12 @@
       Closed
     {% endif %}
   </p>
-  {% if user.is_authenticated %}
+  {% has_perm 'join_request.rules_view_request_post_detail' user post as rules_view_request_post_detail %}
+  {% if rules_view_request_post_detail %}
     <a href="{% url 'join_request_update' pk=post.pk %}">Edit</a>
+  {% endif %}
+  {% has_perm 'join_request.rules_approve_request_post' user as rules_approve_request_post %}
+  {% if rules_approve_request_post and post.is_open %}
+    <a href="{% url 'join_request_approve' pk=post.pk %}">Approve</a>
   {% endif %}
 {% endblock %}

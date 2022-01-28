@@ -23,6 +23,7 @@ from .views import RequestPostCreateView
 from .views import RequestPostDetailView
 from .views import RequestPostListView
 from .views import RequestPostUpdateView
+from .views import approve_request_post
 
 urlpatterns = [
     path("", view=TemplateView.as_view(template_name="join_request/home.html"), name="join_request_home"),
@@ -31,4 +32,5 @@ urlpatterns = [
     path("create/", view=RequestPostCreateView.as_view(), name="join_request_create"),
     path(route="posts/<int:pk>/", view=RequestPostDetailView.as_view(), name="join_request_detail"),
     path(route="posts/<int:pk>/update/", view=RequestPostUpdateView.as_view(), name="join_request_update"),
+    path(route="posts/<int:pk>/approve/", view=approve_request_post, name="join_request_approve"),
 ]

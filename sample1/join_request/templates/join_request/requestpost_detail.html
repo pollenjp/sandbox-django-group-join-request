@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load rules %}
 {% block body %}
+  {% if error is not None %}
+    <div class="alert alert-danger">
+      Error:
+      {{ error }}
+    </div>
+  {% endif %}
   <p>Join Request:
     {{ post.request_group.name }}</p>
   <p>Requested By:

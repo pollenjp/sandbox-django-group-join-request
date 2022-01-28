@@ -7,8 +7,11 @@ from typing import Optional
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import Http404
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.urls import reverse_lazy
+from django.utils.http import urlencode
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
@@ -56,7 +59,12 @@ class RequestPostAllListView(PermissionRequiredMixin, LoginRequiredMixin, ListVi
 class RequestPostDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
     model = RequestPost
     context_object_name = "post"
-    permission_required = ("join_request.rules_view_request_post_detail",)
+    permission_required = "join_request.rules_view_request_post_detail"
+
+    def get_context_data(self, **kwargs):
+        context = {}
+        context["error"] = self.request.GET.get("error", None)
+        return super().get_context_data(**context)
 
 
 class RequestPostCreateView(LoginRequiredMixin, CreateView):
@@ -107,6 +115,10 @@ redirect_page_name: str = "join_request_detail"
 @permission_required("join_request.rules_approve_request_post")
 def approve_request_post(request, pk):
     post: RequestPost = get_object_or_404(RequestPost, pk=pk)
+    if not post.is_open:
+        url = reverse(redirect_page_name, args=[pk])
+        url = f"{url}?{urlencode({'error': 'The post is already closed.'})}"
+        return redirect(url)
     post.is_open = False
     post.save()
 

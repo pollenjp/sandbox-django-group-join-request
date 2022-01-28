@@ -57,7 +57,7 @@ class RequestPostDetailView(PermissionRequiredMixin, LoginRequiredMixin, DetailV
     permission_required = ("join_request.rules_view_request_post_detail",)
 
 
-class RequestPostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+class RequestPostCreateView(LoginRequiredMixin, CreateView):
     model = RequestPost
     form_class = RequestPostForm
     success_url = reverse_lazy("join_request_list")

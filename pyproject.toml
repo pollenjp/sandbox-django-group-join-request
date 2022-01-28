@@ -8,7 +8,7 @@ exclude = [
 profile = "black"
 line_length = 120
 skip_glob = [
-    "**/migrations/*.py",
+    "*/migrations/*.py",
 ]
 force_single_line = true
 import_heading_stdlib      = "Standard Library"
@@ -25,7 +25,8 @@ plugins = ["mypy_django_plugin.main"]
 [[tool.mypy.overrides]]
 module = [
     "allauth.*",
-    "environ"
+    "environ.*",
+    "rules.*",
 ]
 ignore_missing_imports = true
 

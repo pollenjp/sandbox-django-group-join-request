@@ -8,12 +8,12 @@ def is_request_post_owner(user, request_post):
 
 
 @rules.predicate
-def has_view_all_request_post_permission(user) -> bool:
+def has_view_all_request_post_permission(user):
     return user.has_perm("join_request.view_all_request_post")
 
 
 @rules.predicate
-def has_approve_request_post_permission(user) -> bool:
+def has_approve_request_post_permission(user):
     return user.has_perm("join_request.approve_request_post")
 
 

@@ -6,13 +6,13 @@ from typing import Optional
 # Third Party Library
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http.response import Http404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic.edit import UpdateView
+from rules.contrib.views import PermissionRequiredMixin
 
 # Local Library
 from .forms import RequestPostForm

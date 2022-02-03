@@ -119,7 +119,14 @@ def approve_request_post(request, pk):
         url = reverse(redirect_page_name, args=[pk])
         url = f"{url}?{urlencode({'error': 'The post is already closed.'})}"
         return redirect(url)
-    post.is_open = False
+
+    # Add the post user to the group
+    post_author = post.created_by
+    request_group = post.request_group
+    request_group.user_set.add(post_author)
+
+    post.is_open = False  # close the post
+
     post.save()
 
     messages.success(request, "Successfully approved.")

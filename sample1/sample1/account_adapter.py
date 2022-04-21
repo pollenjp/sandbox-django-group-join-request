@@ -1,7 +1,12 @@
+# Standard Library
+from logging import getLogger
+
 # Third Party Library
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.socialaccount.models import SocialLogin
+
+logger = getLogger(__name__)
 
 
 class AccountAdapter(DefaultAccountAdapter):
@@ -18,16 +23,8 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
     ref: <https://django-allauth.readthedocs.io/en/latest/advanced.html>
     """
 
-    def is_open_for_signup(self, request, socialaccount):
-        return True
-
-    def pre_social_login(self, request, sociallogin: SocialLogin):
-        # sociallogin.user: User Model
-        auth_user_username: str = sociallogin.user.username
-        # sociallogin.account: SocialAccount
-        social_account_username: str = sociallogin.account.get_provider().extract_common_fields(
-            sociallogin.account.extra_data
-        )["username"]
-        if auth_user_username != social_account_username:
-            sociallogin.user.username = social_account_username
-            sociallogin.user.save()
+    def is_open_for_signup(self, request, sociallogin: SocialLogin):
+        logger.debug(f"{sociallogin.account.provider=}")
+        if sociallogin.account.provider == "google":
+            return True
+        return False

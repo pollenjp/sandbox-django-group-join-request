@@ -17,24 +17,22 @@ from typing import List
 # Third Party Library
 import environ
 
-env = environ.Env(
-    # set casting, default value
-    DEBUG=(bool, False)
-)
+env = environ.Env(DEBUG=(bool, False))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-environ.Env.read_env(BASE_DIR / ".env")
+
+environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("DJANGO_SETTINGS_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
+DEBUG = env("DJANGO_SETTINGS_DEBUG")
 
 ALLOWED_HOSTS: List[str] = []
 
@@ -43,15 +41,16 @@ ALLOWED_HOSTS: List[str] = []
 
 INSTALLED_APPS = [
     "django.contrib.admin",
-    "django.contrib.auth",  # default, allauth
+    "django.contrib.auth",  # allauth
     "django.contrib.contenttypes",
     "django.contrib.sessions",
-    "django.contrib.messages",  # default, allauth
+    "django.contrib.messages",  # allauth
     "django.contrib.staticfiles",
     "django.contrib.sites",  # allauth
     "allauth",  # allauth
     "allauth.account",  # allauth
     "allauth.socialaccount",  # allauth
+    "allauth.socialaccount.providers.google",  # allauth
     "allauth.socialaccount.providers.github",  # allauth
     "rules.apps.AutodiscoverRulesConfig",  # django-rules
     "join_request.apps.JoinRequestConfig",  # app
@@ -94,10 +93,7 @@ WSGI_APPLICATION = "sample1.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": env.db(),
 }
 
 
@@ -149,7 +145,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 
 AUTHENTICATION_BACKENDS = [
     "rules.permissions.ObjectPermissionBackend",  # django-rules
-    "django.contrib.auth.backends.ModelBackend",  # default, allauth
+    # "django.contrib.auth.backends.ModelBackend",  # default
     "allauth.account.auth_backends.AuthenticationBackend",  # allauth
 ]
 
@@ -161,6 +157,20 @@ SOCIALACCOUNT_PROVIDERS = {  # allauth
             "client_id": env("GITHUB_OAUTH_CLIENT_ID"),
             "secret": env("GITHUB_OAUTH_SECRET"),
         }
+    },
+    "google": {
+        "APP": {
+            "client_id": env("GOOGLE_OAUTH2_CLIENT_ID"),
+            "secret": env("GOOGLE_OAUTH2_CLIENT_SECRET"),
+            # 'key': ''
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
     },
 }
 
